@@ -37,16 +37,16 @@ class Lesti_Merge_Core_Model_Layout_Update extends Mage_Core_Model_Layout_Update
             if($shouldMergeJs || $shouldMergeCss) {
                 $methods[] = 'addItem';
             }
-            foreach($methods as $method) {
-                foreach($xml->children() as $handle => $child){
+            foreach($xml->children() as $handle => $child) {
+                foreach($methods as $method) {
                     $items = $child->xpath(".//action[@method='".$method."']");
                     foreach($items as $item) {
-                        if ($method == 'addItem' && ((!$shouldMergeCss && (string)$item->{'type'} == 'skin_css') || (!$shouldMergeJs && ((string)$item->{'type'} == 'skin_js' || (string)$item->{'type'} == 'js')))){
+                        if ($method == 'addItem' && ((!$shouldMergeCss && (string)$item->{'type'} == 'skin_css') || (!$shouldMergeJs && ((string)$item->{'type'} == 'skin_js' || (string)$item->{'type'} == 'js')))) {
                             continue;
                         }
                         $params = $item->xpath("params");
                         if(count($params)) {
-                            foreach($params as $param){
+                            foreach($params as $param) {
                                 if(trim($param)) {
                                     $param[0] = (string)$param . ' ' . static::HANDLE_ATTRIBUTE . '="' . $handle . '"';
                                 } else {
